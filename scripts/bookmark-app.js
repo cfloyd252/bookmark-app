@@ -21,7 +21,7 @@ function generateInitialView(){
 }
 
 function generateAddBookmarkView(){
-  return `<form id="add-bookmark-form" action="" method="post">
+  return `<form id="add-bookmark-form" action="">
       <label for="url-input">Add new Bookmark Url:</label>
       <input type="url" id="url-input">
       <div class="bookmark-info">
@@ -33,6 +33,7 @@ function generateAddBookmarkView(){
               <span class="fa fa-star"><input type="radio" name="rating" id="str2" value="2"><label for="str2"></label></span>
               <span class="fa fa-star"><input type="radio" name="rating" id="str1" value="1"><label for="str1"></label></span>
           </div>
+          
           <input type="text" id="description-input" placeholder="Add a description (optional)">
           <div id="form-buttons">
           <button id="cancel-button">Cancel</button>
@@ -94,17 +95,6 @@ function handleAddBookmarkButton(){
   });
 }
 
-const toggleExpandForBookmark = function (id) {
-  const foundBookmark = STORE.bookmarks.find(bookmark => bookmark.id === id);
-  foundBookmark.expanded = !foundBookmark.expanded;
-};
-
-const getItemIdFromElement = function (item) {
-  return $(item)
-    .closest('.bookmark')
-    .data('item-id');
-};
-  
 function handleExpandView(){
   //When bookmark is clicked, render the expanded view of the selected bookmark
   $('main').on('click', '.bookmark', event => {
@@ -113,11 +103,6 @@ function handleExpandView(){
     render();
   });
 }
-
-const deleteListItem = function (id){
-  const index = STORE.bookmarks.findIndex(item => item.id === id);
-  STORE.bookmarks.splice(index,1);
-};
 
 function handleDeleteButton(){
   //When #delete-button is clicked, remove the selected bookmark
@@ -138,6 +123,22 @@ function handleCancelButton(){
   });
 }
 
+const toggleExpandForBookmark = function (id) {
+  const foundBookmark = STORE.bookmarks.find(bookmark => bookmark.id === id);
+  foundBookmark.expanded = !foundBookmark.expanded;
+};
+
+const getItemIdFromElement = function (item) {
+  return $(item)
+    .closest('.bookmark')
+    .data('item-id');
+};
+
+const deleteListItem = function (id){
+  const index = STORE.bookmarks.findIndex(item => item.id === id);
+  STORE.bookmarks.splice(index,1);
+};
+
 function minimumRatingFilter(){
   //When option is selected, only display bookmarks with that rating or higher
 }
@@ -149,7 +150,7 @@ const bindEventListeners = function() {
   handleDeleteButton();
   handleCancelButton();
   minimumRatingFilter();
-}
+};
 
 export default {
   render,

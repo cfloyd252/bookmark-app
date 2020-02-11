@@ -1,7 +1,7 @@
 const bookmarks = [];
 let adding = false;
 let error = null;
-let filter = 0;
+let rating = 0;
 
 const addBookmark = function(bookmark) {
   this.bookmarks.push(bookmark);
@@ -15,7 +15,7 @@ export default {
   bookmarks,
   adding,
   error,
-  filter,
+  rating,
   addBookmark,
   setError
 };
