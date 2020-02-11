@@ -1,9 +1,7 @@
 const BASE_URL = 'https://thinkful-list-api.herokuapp.com/chris/bookmarks'
 
 const getBookmarks = function () {
-  fetch(`${BASE_URL}`)
-    .then(promise => promise.json())
-    .then(bookmarkArray => console.log(bookmarkArray));
+  return apiFetch(`${BASE_URL}`);
 };
 
 const postBoomark = function(id, title, desc, url, rating) {
@@ -15,7 +13,7 @@ const postBoomark = function(id, title, desc, url, rating) {
     rating
   });
 
-  fetch(`${BASE_URL}`, {
+  return apiFetch(`${BASE_URL}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -24,7 +22,34 @@ const postBoomark = function(id, title, desc, url, rating) {
   });
 };
 
+const deleteBookmarks = function(id) {
+  return apiFetch(`${BASE_URL}/bookmarks/${id}`, {
+    method: 'DELETE'
+  });
+};
+
+const apiFetch = function(...args) {
+  let error;
+  return fetch(...args)
+    .then(res => {
+      if(!res.ok) {
+        error = { code: res.status };
+      }
+  
+      return res.json();
+    })
+    .then(data => {
+      if(error) {
+        error.message = data.message;
+        return Promise.reject(error);
+      }
+  
+      return data;
+    });
+};
+
 export default {
   getBookmarks,
-  postBoomark
-}
+  postBoomark,
+  deleteBookmarks
+};
